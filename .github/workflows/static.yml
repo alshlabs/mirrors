@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
-      - run: curl -L https://github.com/alshlabs/8zip/releases/download/$EZIP_VERSION/8zip-linux-amd64.tar.gz | tar -xzf - -C /usr/local/bin
+      - run: curl -L https://github.com/alshlabs/8zip/releases/latest/download/8zip-linux-amd64.tar.gz | tar -xzf - -C /usr/local/bin
 
       - run: wget https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -O /tmp/deno.zip && unzip /tmp/deno.zip -d /usr/local/bin
       - run: which deno && deno --version
@@ -98,7 +98,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
-      - run: curl -L https://github.com/alshlabs/8zip/releases/download/$EZIP_VERSION/8zip-macos-arm64.tar.gz | tar -xzf - -C /usr/local/bin
+      - run: curl -L https://github.com/alshlabs/8zip/releases/latest/download/8zip-macos-arm64.tar.gz | tar -xzf - -C /usr/local/bin
       - run: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y && echo "$HOME/.cargo/bin" >> $GITHUB_PATH
       - run: bash ./scripts/pkg_eza_build_macos.bash
       - uses: actions/upload-artifact@v6
