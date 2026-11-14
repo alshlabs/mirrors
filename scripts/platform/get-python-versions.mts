@@ -1,3 +1,5 @@
+import node from "node:process";
+
 void async function main() {
   const resp = await getRelease("astral-sh/python-build-standalone");
   const downloads: Array<{
@@ -69,7 +71,7 @@ void async function main() {
 
   const encoder = new TextEncoder();
   const data = encoder.encode(JSON.stringify(Object.entries(output)));
-  Deno.stdout.writeSync(data)
+  node.stdout.write(data)
 }()
 
 export type GithubReleaseResponse = {

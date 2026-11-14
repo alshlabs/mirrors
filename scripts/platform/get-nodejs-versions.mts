@@ -1,4 +1,5 @@
-import semver from "npm:semver";
+import node from "node:process";
+import semver from "semver";
 
 void async function main() {
   const resp = await getReleases();
@@ -36,7 +37,7 @@ void async function main() {
 
   const encoder = new TextEncoder();
   const data = encoder.encode(output.join(" "));
-  Deno.stdout.writeSync(data)
+  node.stdout.write(data)
 }()
 
 export type NodejsReleasesResponse = Array<{

@@ -8,6 +8,9 @@
     "strict": true
   },
   "include": [
-    "site"
+    "site",
+    "**/*.mts",
+    "**/*.cts",
+    "**/*.ts"
   ]
 }
