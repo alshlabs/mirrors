@@ -11,7 +11,7 @@ Applications are published as Github releases on this repo, with a normalized na
 {package-name}-latest
 ```
 
-A Github action runs routinely to scan projects for updates, automatically publishing a [Github release](https://github.com/alshdavid/xpkg/releases) when updates are detected.
+A Github action runs routinely to scan projects for updates, automatically publishing a [Github release](https://github.com/alshlabs/mirrors/releases) when updates are detected.
 
 
 ## Instructions
@@ -20,10 +20,10 @@ A Github action runs routinely to scan projects for updates, automatically publi
 
 ```bash
 # Download the latest GH Cli to the current directory
-curl -L https://github.com/alshdavid/xpkg/releases/download/gh-latest/gh-linux-amd64.tar.gz | tar -xzf - -C .
+curl -L https://github.com/alshlabs/mirrors/releases/download/gh-latest/gh-linux-amd64.tar.gz | tar -xzf - -C .
 ./gh --version
 
-curl -L https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz | tar -xzf - -C .
+curl -L https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz | tar -xzf - -C .
 ./bin/node --version
 ```
 
@@ -44,12 +44,12 @@ Some, but not all projects have.
 Where possible, projects are recompiled to add support for these targets.
 
 ```
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-macos-amd64.tar.gz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-macos-amd64.tar.gz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-windows-amd64.tar.gz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-windows-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-macos-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-macos-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-windows-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-windows-amd64.tar.gz
 ```
 
 ### Archive Formats
@@ -70,7 +70,7 @@ To maximize compatibility, applications are repackaged and the contents flattene
   - Supports streamed decompression (one line download/extract)
 
 ```
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-linux-amd64.tar.xz
-https://github.com/alshdavid/xpkg/releases/download/nodejs-latest/nodejs-linux-amd64.zip
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-linux-amd64.tar.gz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-linux-amd64.tar.xz
+https://github.com/alshlabs/mirrors/releases/download/nodejs-latest/nodejs-linux-amd64.zip
 ```

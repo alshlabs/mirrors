@@ -1,1 +1,1 @@
-export const REPO = "alshdavid/xpkg";
+export const REPO = "alshlabs/mirrors";

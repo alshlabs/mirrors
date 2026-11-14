@@ -13,7 +13,7 @@ VERSIONS_LEN=$(echo $VERSIONS | jq 'length')
 for ((i=0; i<VERSIONS_LEN; i++)); do
   VERSION=$(echo $VERSIONS | jq -r ".[$i][0]")
 
-  if [ $(gh-release-exists alshdavid/xpkg "$PACKAGE-$VERSION") = "true" ]; then
+  if [ $(gh-release-exists alshlabs/mirrors "$PACKAGE-$VERSION") = "true" ]; then
     echo Already Up To Date
     continue
   fi

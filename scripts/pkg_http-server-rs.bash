@@ -5,7 +5,7 @@ TMP_DIR="$ROOT_DIR/tmp"
 PATH="$SCRIPT_DIR/platform:$PATH"
 
 PACKAGE="http-server-rs"
-REPO="alshdavid/http-server-rs"
+REPO="alshlabs/http-server-rs"
 VERSION=$(gh release view --json tagName --repo $REPO | jq -r '.tagName | ltrimstr("v")')
 
 rm -rf $TMP_DIR/download
@@ -13,7 +13,7 @@ rm -rf $TMP_DIR/extracted
 rm -rf $TMP_DIR/binaries
 rm -rf $ROOT_DIR/binaries/$PACKAGE-$VERSION
 
-if [ $(gh-release-exists alshdavid/xpkg "${PACKAGE}-${VERSION}") = "true" ]; then
+if [ $(gh-release-exists alshlabs/mirrors "${PACKAGE}-${VERSION}") = "true" ]; then
   echo Already Up To Date
   exit 0
 fi

@@ -13,7 +13,7 @@ rm -rf $TMP_DIR/extracted
 rm -rf $TMP_DIR/source
 rm -rf $ROOT_DIR/binaries/$PACKAGE-$VERSION
 
-if [ $(gh-release-exists alshdavid/xpkg "${PACKAGE}-${VERSION}") = "true" ]; then
+if [ $(gh-release-exists alshlabs/mirrors "${PACKAGE}-${VERSION}") = "true" ]; then
   echo Already Up To Date
   exit 0
 fi

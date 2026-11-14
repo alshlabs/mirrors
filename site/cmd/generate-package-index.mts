@@ -73,7 +73,7 @@ export async function main() {
 
   const index: VersionIndex = {};
 
-  for await (const release of getReleases("alshdavid/xpkg")) {
+  for await (const release of getReleases("alshlabs/mirrors")) {
     if (!release.body) {
       continue;
     }

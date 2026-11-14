@@ -16,7 +16,7 @@ for VERSION in "${nodejs_versions[@]}"; do
   rm -rf $TMP_DIR/binaries
   rm -rf $ROOT_DIR/binaries/$PACKAGE-$VERSION
 
-  if [ $(gh-release-exists alshdavid/xpkg "${PACKAGE}-${VERSION}") = "true" ]; then
+  if [ $(gh-release-exists alshlabs/mirrors "${PACKAGE}-${VERSION}") = "true" ]; then
     continue
   fi
 
