@@ -23,7 +23,6 @@ concurrency:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   GH_TOKEN: ${{ github.token }}
-  EZIP_VERSION: 0.0.5
 
 jobs:
   repackage:
