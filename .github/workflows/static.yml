@@ -30,9 +30,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - run: curl -L https://github.com/alshlabs/8zip/releases/latest/download/8zip-linux-amd64.tar.gz | tar -xzf - -C /usr/local/bin
-
-      - run: wget https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -O /tmp/deno.zip && unzip /tmp/deno.zip -d /usr/local/bin
-      - run: which deno && deno --version
+      - run: mkdir -p $HOME/.local/nodejs && VERSION=$(curl -sL https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" {print $1; exit}') && curl -L https://nodejs.org/download/release/$VERSION/node-$VERSION-linux-x64.tar.gz | tar --strip-components=1 -xzf - -C $HOME/.local/nodejs && echo "$HOME/.local/nodejs/bin" >> $GITHUB_PATH
+      - run: npm install
 
       - name: pkg_8zip
         run: bash ./scripts/pkg_8zip.bash
@@ -120,11 +119,10 @@ jobs:
           path: binaries
           merge-multiple: true
       - run: cd binaries && for item in *; do echo "$item"; [ -d "$item" ] && for subitem in "$item"/*; do [ -e "$subitem" ] && echo "  $subitem"; done; done || true
-      # Install Deno
-      - run: wget https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -O /tmp/deno.zip && unzip /tmp/deno.zip -d /usr/local/bin
+      - run: mkdir -p $HOME/.local/nodejs && VERSION=$(curl -sL https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" {print $1; exit}') && curl -L https://nodejs.org/download/release/$VERSION/node-$VERSION-linux-x64.tar.gz | tar --strip-components=1 -xzf - -C $HOME/.local/nodejs && echo "$HOME/.local/nodejs/bin" >> $GITHUB_PATH
       # Generate release
-      - run: deno install
-      - run: deno -A ./site/bin/generate-release.mts --run
+      - run: npm install
+      - run: node ./site/bin/generate-release.mts --run
 
   publish-pages:
     name: "📃 Publish Pages"
@@ -134,14 +132,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/configure-pages@v5
-      # Install Deno
-      - run: wget https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -O /tmp/deno.zip && unzip /tmp/deno.zip -d /usr/local/bin
+      - run: mkdir -p $HOME/.local/nodejs && VERSION=$(curl -sL https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" {print $1; exit}') && curl -L https://nodejs.org/download/release/$VERSION/node-$VERSION-linux-x64.tar.gz | tar --strip-components=1 -xzf - -C $HOME/.local/nodejs && echo "$HOME/.local/nodejs/bin" >> $GITHUB_PATH
       # Generate pages
-      - run: deno install
-      - run: deno -A ./site/bin/generate-package-index.mts --run
-      - run: deno -A ./site/bin/copy-files.mts --run
-      - run: deno -A ./site/bin/build-shell-scripts.mts --run
-      - run: deno -A ./site/bin/build-page.mts --run
+      - run: npm install
+      - run: node ./site/bin/generate-package-index.mts --run
+      - run: node ./site/bin/copy-files.mts --run
+      - run: node ./site/bin/build-shell-scripts.mts --run
+      - run: node ./site/bin/build-page.mts --run
       - uses: actions/upload-pages-artifact@v3
         with: { path: 'dist' }
       - name: Deploy to GitHub Pages
@@ -156,10 +153,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/configure-pages@v5
-      # Install Deno
-      - run: wget https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip -O /tmp/deno.zip && unzip /tmp/deno.zip -d /usr/local/bin
+      - run: mkdir -p $HOME/.local/nodejs && VERSION=$(curl -sL https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" {print $1; exit}') && curl -L https://nodejs.org/download/release/$VERSION/node-$VERSION-linux-x64.tar.gz | tar --strip-components=1 -xzf - -C $HOME/.local/nodejs && echo "$HOME/.local/nodejs/bin" >> $GITHUB_PATH
       # Generate pages
-      - run: deno install
-      - run: deno -A ./site/bin/republish-latest.mts --run
+      - run: npm install
+      - run: node ./site/bin/republish-latest.mts --run
   
 

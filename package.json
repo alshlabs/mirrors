@@ -7,17 +7,17 @@
     "format": "npx prettier -w ./site"
   },
   "dependencies": {
-    "@napi-rs/lzma": "^1.4.5",
-    "@types/adm-zip": "^0.5.7",
+    "@napi-rs/lzma": "*",
+    "@types/adm-zip": "*",
     "@types/ejs": "*",
     "@types/node": "*",
     "@types/semver": "*",
-    "@types/tar-stream": "^3.1.4",
-    "adm-zip": "^0.5.16",
+    "@types/tar-stream": "*",
+    "adm-zip": "*",
     "ejs": "*",
     "prettier": "*",
     "semver": "*",
-    "tar-stream": "^3.1.7",
+    "tar-stream": "*",
     "typescript": "*"
   }
 }

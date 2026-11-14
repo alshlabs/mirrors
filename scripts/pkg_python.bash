@@ -8,7 +8,7 @@ PACKAGE="python"
 REPO="astral-sh/python-build-standalone"
 VERSION=$(gh release view --json tagName --repo $REPO | jq -r '.tagName | ltrimstr("v")')
 
-VERSIONS=$(deno -A $SCRIPT_DIR/platform/get-python-versions.mts)
+VERSIONS=$(node $SCRIPT_DIR/platform/get-python-versions.mts)
 VERSIONS_LEN=$(echo $VERSIONS | jq 'length')
 for ((i=0; i<VERSIONS_LEN; i++)); do
   VERSION=$(echo $VERSIONS | jq -r ".[$i][0]")
