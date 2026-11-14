@@ -21,14 +21,12 @@ fi
 mkdir -p $TMP_DIR/download          
 wget -q -O $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz https://github.com/sharkdp/hyperfine/releases/download/v$VERSION/hyperfine-v$VERSION-x86_64-unknown-linux-musl.tar.gz
 wget -q -O $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz https://github.com/sharkdp/hyperfine/releases/download/v$VERSION/hyperfine-v$VERSION-aarch64-unknown-linux-gnu.tar.gz
-wget -q -O $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz https://github.com/sharkdp/hyperfine/releases/download/v$VERSION/hyperfine-v$VERSION-x86_64-apple-darwin.tar.gz
 wget -q -O $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz https://github.com/sharkdp/hyperfine/releases/download/v$VERSION/hyperfine-v$VERSION-aarch64-apple-darwin.tar.gz
 wget -q -O $TMP_DIR/download/$PACKAGE-$VERSION.zip    https://github.com/sharkdp/hyperfine/releases/download/v$VERSION/hyperfine-v$VERSION-x86_64-pc-windows-msvc.zip
 
 mkdir $TMP_DIR/binaries        
 8zip extract --output $TMP_DIR/binaries/deno-${VERSION}-linux-amd64   $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz
 8zip extract --output $TMP_DIR/binaries/deno-${VERSION}-linux-arm64   $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz
-8zip extract --output $TMP_DIR/binaries/deno-${VERSION}-macos-amd64   $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz
 8zip extract --output $TMP_DIR/binaries/deno-${VERSION}-macos-arm64   $TMP_DIR/download/$PACKAGE-$VERSION.tar.gz
 8zip extract --output $TMP_DIR/binaries/deno-${VERSION}-windows-amd64 $TMP_DIR/download/$PACKAGE-$VERSION.zip
 
@@ -40,10 +38,6 @@ mkdir -p "$ROOT_DIR/binaries/$PACKAGE-$VERSION"
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.tar.gz"  --cwd $TMP_DIR/binaries/deno-$VERSION-linux-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.tar.xz"  --cwd $TMP_DIR/binaries/deno-$VERSION-linux-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.zip"     --cwd $TMP_DIR/binaries/deno-$VERSION-linux-arm64 .
-
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.tar.gz"  --cwd $TMP_DIR/binaries/deno-$VERSION-macos-amd64 .
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.tar.xz"  --cwd $TMP_DIR/binaries/deno-$VERSION-macos-amd64 .
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.zip"     --cwd $TMP_DIR/binaries/deno-$VERSION-macos-amd64 .
 
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-arm64.tar.gz"  --cwd $TMP_DIR/binaries/deno-$VERSION-macos-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-arm64.tar.xz"  --cwd $TMP_DIR/binaries/deno-$VERSION-macos-arm64 .

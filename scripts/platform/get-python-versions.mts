@@ -38,6 +38,10 @@ void async function main() {
       continue;
     }
 
+    if (os === "macos" && arch === "amd64") {
+      continue;
+    }
+
     const version = `${major}.${minor}.${patch}`;
 
     downloads.push({

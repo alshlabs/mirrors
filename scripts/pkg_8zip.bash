@@ -22,7 +22,6 @@ echo "FETCHING"
 mkdir -p $TMP_DIR/download          
 wget -q -P $TMP_DIR/download https://github.com/$REPO/releases/download/${VERSION}/$PACKAGE-linux-amd64.tar.xz
 wget -q -P $TMP_DIR/download https://github.com/$REPO/releases/download/${VERSION}/$PACKAGE-linux-arm64.tar.xz
-wget -q -P $TMP_DIR/download https://github.com/$REPO/releases/download/${VERSION}/$PACKAGE-macos-amd64.tar.xz
 wget -q -P $TMP_DIR/download https://github.com/$REPO/releases/download/${VERSION}/$PACKAGE-macos-arm64.tar.xz
 wget -q -P $TMP_DIR/download https://github.com/$REPO/releases/download/${VERSION}/$PACKAGE-windows-amd64.tar.xz
 wget -q -P $TMP_DIR/download https://github.com/$REPO/releases/download/${VERSION}/$PACKAGE-windows-arm64.tar.xz
@@ -31,7 +30,6 @@ echo "EXTRACTING"
 mkdir $TMP_DIR/binaries        
 8zip extract --output $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-amd64   $TMP_DIR/download/$PACKAGE-linux-amd64.tar.xz
 8zip extract --output $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64   $TMP_DIR/download/$PACKAGE-linux-arm64.tar.xz
-8zip extract --output $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64   $TMP_DIR/download/$PACKAGE-macos-amd64.tar.xz
 8zip extract --output $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64   $TMP_DIR/download/$PACKAGE-macos-arm64.tar.xz
 8zip extract --output $TMP_DIR/binaries/$PACKAGE-$VERSION-windows-amd64 $TMP_DIR/download/$PACKAGE-windows-amd64.tar.xz
 8zip extract --output $TMP_DIR/binaries/$PACKAGE-$VERSION-windows-arm64 $TMP_DIR/download/$PACKAGE-windows-arm64.tar.xz
@@ -45,10 +43,6 @@ mkdir -p "$ROOT_DIR/binaries/$PACKAGE-$VERSION"
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.tar.gz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.tar.xz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.zip"     --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64 .
-
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.tar.gz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64 .
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.tar.xz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64 .
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.zip"     --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64 .
 
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-arm64.tar.gz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-arm64.tar.xz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64 .

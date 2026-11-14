@@ -22,19 +22,16 @@ echo "FETCHING"
 mkdir -p $TMP_DIR/binaries        
 mkdir -p $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-amd64
 mkdir -p $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64
-mkdir -p $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64
 mkdir -p $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64
 mkdir -p $TMP_DIR/binaries/$PACKAGE-$VERSION-windows-amd64
 
 wget -q -O $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-amd64/oha        https://github.com/$REPO/releases/download/v$VERSION/oha-linux-amd64
 wget -q -O $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64/oha        https://github.com/$REPO/releases/download/v$VERSION/oha-linux-arm64
-wget -q -O $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64/oha        https://github.com/$REPO/releases/download/v$VERSION/oha-macos-amd64
 wget -q -O $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64/oha        https://github.com/$REPO/releases/download/v$VERSION/oha-macos-arm64
 wget -q -O $TMP_DIR/binaries/$PACKAGE-$VERSION-windows-amd64/oha.exe  https://github.com/$REPO/releases/download/v$VERSION/oha-windows-amd64.exe
 
 chmod +x $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-amd64/oha
 chmod +x $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64/oha
-chmod +x $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64/oha
 chmod +x $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64/oha
 chmod +x $TMP_DIR/binaries/$PACKAGE-$VERSION-windows-amd64/oha.exe
 
@@ -47,10 +44,6 @@ mkdir -p "$ROOT_DIR/binaries/$PACKAGE-$VERSION"
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.tar.gz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.tar.xz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-linux-arm64.zip"     --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-linux-arm64 .
-
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.tar.gz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64 .
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.tar.xz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64 .
-8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-amd64.zip"     --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-amd64 .
 
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-arm64.tar.gz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64 .
 8zip compress --output "$ROOT_DIR/binaries/$PACKAGE-$VERSION/$PACKAGE-$VERSION-macos-arm64.tar.xz"  --cwd $TMP_DIR/binaries/$PACKAGE-$VERSION-macos-arm64 .
