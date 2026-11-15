@@ -12,6 +12,7 @@ import type {
   ReleaseMeta,
 } from "../platform/types.mts";
 import {
+  isWholeVersion,
   sortEntries,
   tryParseSemver,
 } from "../platform/repackage-versions/infer-format.mts";
@@ -136,6 +137,13 @@ export async function main() {
 
   // Semver Majors
   for (const versions of Object.values(sorted)) {
+    // `latest` should point at the newest whole (stable) version. Versions are
+    // already sorted newest-first, so fall back to the first entry if a
+    // package only has prereleases.
+    const all = Object.values(versions);
+    const latestVersion =
+      all.find((version) => isWholeVersion(version.version)) ?? all[0];
+
     for (const version of Object.values(versions)) {
       const sv = tryParseSemver(version.version);
       if (!sv) {
@@ -180,19 +188,15 @@ export async function main() {
         );
         await createVersionTexts(version, `${sv.major}`);
       }
+    }
 
-      if (
-        !fs.existsSync(
-          path.join(Paths["~/dist/packages"], version.package, `latest.json`),
-        )
-      ) {
-        await fs.promises.writeFile(
-          path.join(Paths["~/dist/packages"], version.package, `latest.json`),
-          JSON.stringify(version, null, 2),
-          "utf8",
-        );
-        await createVersionTexts(version, `latest`);
-      }
+    if (latestVersion) {
+      await fs.promises.writeFile(
+        path.join(Paths["~/dist/packages"], latestVersion.package, `latest.json`),
+        JSON.stringify(latestVersion, null, 2),
+        "utf8",
+      );
+      await createVersionTexts(latestVersion, `latest`);
     }
   }
 

@@ -12,6 +12,7 @@ import {
 } from "../platform/github-releases.mts";
 import { wget } from "../platform/wget.mts";
 import { getLatestNodejsLTS } from "../platform/nodejs.mts";
+import { isWholeVersion } from "../platform/repackage-versions/infer-format.mts";
 
 const latest: Array<string> = [
   "8zip",
@@ -56,6 +57,12 @@ export async function main() {
       // Release may not exist, or may not be inspectable (eg: a leftover
       // draft). Either way we keep going and clean up before re-creating it.
       console.log(`[${tagName}] NO_EXISTING_RELEASE`)
+    }
+
+    // Top level tags should only ever track whole (stable) versions
+    if (!isWholeVersion(manifest.version)) {
+      console.log(`Skipping ${entry}, ${manifest.version} is not a whole version`);
+      continue;
     }
 
     if (currentVersion === manifest.version) {

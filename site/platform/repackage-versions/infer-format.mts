@@ -45,3 +45,10 @@ export function tryParseSemver(str: string): semver.SemVer | undefined {
   }
   return undefined;
 }
+
+/// A "whole" version is a stable release: 1.2.3 or v1.2.3, no prerelease or
+/// build metadata. Anything else (1.2.3-alpha.1, 1.2.3.4, nightly) is not.
+export function isWholeVersion(str: string): boolean {
+  const parsed = semver.parse(str.replace(/^v/, ""));
+  return !!parsed && parsed.prerelease.length === 0;
+}
