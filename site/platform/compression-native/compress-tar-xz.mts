@@ -14,7 +14,9 @@ export async function compressTarXz(
 
   // Collect tar data in memory
   const chunks: Buffer[] = [];
-  tarPack.on("data", (chunk) => chunks.push(chunk));
+  tarPack.on("data", (chunk: unknown) =>
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk as any)),
+  );
 
   const tarComplete = new Promise<void>((resolve, reject) => {
     tarPack.on("end", resolve);
