@@ -5,7 +5,7 @@ import { getRelease, type GithubReleaseResponse } from "../platform/github.mts";
 import { REPO } from "../platform/repo-name.mts";
 import {
   githubReleaseCreate,
-  githubReleaseDelete,
+  githubReleaseDeleteAll,
   githubReleaseEdit,
   githubReleaseUpload,
   githubReleaseView,
@@ -35,7 +35,6 @@ const latest: Array<string> = [
 export async function main() {
   await generateIndex.main()
 
-  let releaseExists = true
   for (const entry of latest) {
     const tagName = `${entry}-latest`
 
@@ -45,17 +44,23 @@ export async function main() {
         "utf8"
       )
     );
+
+    let currentVersion: string | undefined
     try {
       const { body: current} = await githubReleaseView<{ version: string }>({
         repo: REPO,
         tag: tagName
       })
-      if (manifest.version === current.version) {
-        console.log(`Skipping ${entry}`);
-        continue;
-      }
+      currentVersion = current?.version
     } catch {
-      releaseExists = false
+      // Release may not exist, or may not be inspectable (eg: a leftover
+      // draft). Either way we keep going and clean up before re-creating it.
+      console.log(`[${tagName}] NO_EXISTING_RELEASE`)
+    }
+
+    if (currentVersion === manifest.version) {
+      console.log(`Skipping ${entry}`);
+      continue;
     }
 
     console.log(`Updating ${entry}`);
@@ -70,16 +75,14 @@ export async function main() {
       await wget(asset.browser_download_url, Paths['~/tmp/'](asset.name.replace(`-${manifest.version}-`, '-')))
     }
     if (!fs.existsSync(Paths['~/tmp/']('meta.json'))) {
-      fs.writeFileSync(JSON.stringify({"package": entry, "version": manifest.version }), Paths['~/tmp/']('meta.json'), 'utf8')
+      fs.writeFileSync(Paths['~/tmp/']('meta.json'), JSON.stringify({"package": entry, "version": manifest.version }), 'utf8')
     }
 
-    if (releaseExists) {
-      console.log(`[${tagName}] RELEASE EXISTS, DELETING`)
-      await githubReleaseDelete({
-        repo: REPO,
-        tag: tagName
-      })
-    }
+    console.log(`[${tagName}] CLEANING_UP_EXISTING_RELEASE`)
+    await githubReleaseDeleteAll({
+      repo: REPO,
+      tag: tagName
+    })
 
     console.log(`[${tagName}] CREATING LATEST`)
     await githubReleaseCreate({
@@ -99,6 +102,7 @@ export async function main() {
         repo: REPO,
         tag: tagName,
         file: Paths["~/tmp/"](fileName),
+        clobber: true,
       });
     }
 
@@ -123,7 +127,6 @@ export async function main() {
   for (const [entry, version] of ltsMainfest) {
     const tagName = `${entry}-lts`
 
-    let releaseExists = false
     try {
       const { body: ltsRelease } = await githubReleaseView<{ version: string }>({
         repo: REPO,
@@ -133,9 +136,9 @@ export async function main() {
         console.log(`Skipping, LTS already current ${entry}-${version}`);
         continue
       }
-      releaseExists = true
     } catch {
       // Doesn't matter if it doesn't exist, we'll create it
+      console.log(`[${tagName}] NO_EXISTING_RELEASE`)
     }
 
     let release: GithubReleaseResponse
@@ -155,16 +158,14 @@ export async function main() {
       await wget(asset.browser_download_url, Paths['~/tmp/'](asset.name.replace(`-${version}-`, '-')))
     }
     if (!fs.existsSync(Paths['~/tmp/']('meta.json'))) {
-      fs.writeFileSync(JSON.stringify({"package": entry, "version": version }), Paths['~/tmp/']('meta.json'), 'utf8')
+      fs.writeFileSync(Paths['~/tmp/']('meta.json'), JSON.stringify({"package": entry, "version": version }), 'utf8')
     }
 
-    if (releaseExists) {
-      console.log(`[${tagName}] RELEASE EXISTS, DELETING`)
-      await githubReleaseDelete({
-        repo: REPO,
-        tag: tagName
-      })
-    }
+    console.log(`[${tagName}] CLEANING_UP_EXISTING_RELEASE`)
+    await githubReleaseDeleteAll({
+      repo: REPO,
+      tag: tagName
+    })
 
     console.log(`[${tagName}] CREATING LATEST`)
     await githubReleaseCreate({
@@ -184,6 +185,7 @@ export async function main() {
         repo: REPO,
         tag: tagName,
         file: Paths["~/tmp/"](fileName),
+        clobber: true,
       });
     }
 

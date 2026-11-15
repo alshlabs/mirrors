@@ -66,18 +66,73 @@ export async function githubReleaseDelete({
   ]);
 }
 
+export type GithubReleaseDeleteAllOptions = {
+  repo: string;
+  tag: string;
+};
+
+/// Deletes every release (published or draft) that points at the given tag.
+/// Unlike `githubReleaseDelete` this does not throw when the release does not
+/// exist and it also cleans up orphaned draft releases, which can be left
+/// behind by an interrupted run and which make `gh release upload` fail with
+/// "asset under the same name already exists".
+export async function githubReleaseDeleteAll({
+  repo,
+  tag,
+}: GithubReleaseDeleteAllOptions): Promise<void> {
+  try {
+    const filter = `.[] | select(.tag_name == ${JSON.stringify(tag)}) | .id`;
+    const result = await sh(
+      "gh",
+      [
+        "api",
+        `repos/${repo}/releases?per_page=100`,
+        ...["--paginate"],
+        ...["--jq", filter],
+      ],
+      { stdio: "pipe" },
+    );
+
+    const ids = result.stdout
+      .split("\n")
+      .map((id) => id.trim())
+      .filter((id) => /^\d+$/.test(id));
+
+    for (const id of ids) {
+      console.log(`[${tag}] DELETING_EXISTING_RELEASE: ${id}`);
+      await sh(
+        "gh",
+        ["api", "-X", "DELETE", `repos/${repo}/releases/${id}`],
+        { stdio: "pipe" },
+      );
+    }
+  } catch (error) {
+    console.log(`[${tag}] FAILED_TO_CLEAN_UP_EXISTING_RELEASE`);
+    console.log({ error });
+  }
+}
+
 export type GithubReleaseUploadOptions = {
   repo: string;
   tag: string;
   file: string;
+  clobber?: boolean;
 };
 
 export async function githubReleaseUpload({
   repo,
   tag,
   file,
+  clobber,
 }: GithubReleaseUploadOptions): Promise<void> {
-  await sh("gh", ["release", "upload", tag, file, ...["--repo", repo]]);
+  await sh("gh", [
+    "release",
+    "upload",
+    tag,
+    file,
+    ...["--repo", repo],
+    ...(clobber ? ["--clobber"] : []),
+  ]);
 }
 
 export type GithubReleaseListOptions = {
@@ -138,7 +193,11 @@ export async function githubReleaseView<T = unknown>({
   );
   if (result.code === 0) {
     const parsed = JSON.parse(result.stdout)
-    parsed.body = JSON.parse(parsed.body)
+    try {
+      parsed.body = JSON.parse(parsed.body)
+    } catch {
+      // Body is not JSON (empty or hand-written notes), leave it as a string
+    }
     return parsed;
   } else {
     throw new Error("Command failed" + result.stdout + result.stderr);

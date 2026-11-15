@@ -44,6 +44,7 @@ export async function main() {
           repo: REPO,
           tag: tagName,
           file: Paths["~/binaries/"](tagName, fileName),
+          clobber: true,
         });
       }
 

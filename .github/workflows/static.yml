@@ -124,11 +124,25 @@ jobs:
       - run: npm install
       - run: node ./site/bin/generate-release.mts --run
 
+  release-latest:
+    name: "📃 Republish Latest"
+    runs-on: ubuntu-24.04
+    needs:
+      - publish-github-release
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/configure-pages@v5
+      - run: mkdir -p $HOME/.local/nodejs && VERSION=$(curl -sL https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" && !v { v = $1 } END { print v }') && curl -L https://nodejs.org/download/release/$VERSION/node-$VERSION-linux-x64.tar.gz | tar --strip-components=1 -xzf - -C $HOME/.local/nodejs && echo "$HOME/.local/nodejs/bin" >> $GITHUB_PATH
+      # Generate pages
+      - run: npm install
+      - run: node ./site/bin/republish-latest.mts --run
+  
+
   publish-pages:
     name: "📃 Publish Pages"
     runs-on: ubuntu-24.04
     needs:
-      - publish-github-release
+      - release-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/configure-pages@v5
@@ -144,18 +158,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  release-latest:
-    name: "📃 Republish Latest"
-    runs-on: ubuntu-24.04
-    needs:
-      - publish-github-release
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/configure-pages@v5
-      - run: mkdir -p $HOME/.local/nodejs && VERSION=$(curl -sL https://nodejs.org/dist/index.tab | awk 'NR > 1 && $10 != "-" && !v { v = $1 } END { print v }') && curl -L https://nodejs.org/download/release/$VERSION/node-$VERSION-linux-x64.tar.gz | tar --strip-components=1 -xzf - -C $HOME/.local/nodejs && echo "$HOME/.local/nodejs/bin" >> $GITHUB_PATH
-      # Generate pages
-      - run: npm install
-      - run: node ./site/bin/republish-latest.mts --run
-  
-

@@ -1,7 +1,9 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
-import * as ejs from "ejs";
+// ejs >= 7 exposes the API only through the default export of its ESM entry,
+// so a namespace import (`import * as ejs`) has no `render` function.
+import ejs from "ejs";
 
 const filename = url.fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
